@@ -35,6 +35,8 @@ This project uses MongoDB as the database, with Mongoose as the ODM (Object Data
 
 The `users` collection stores information about the users of the application.
 
+===== PLEASE EDIT USER ROLE MANUALLY IN DATABASE BEFORE TESTING APIS THAT REQUIRE THE ADMIN ROLE
+
 #### Schema Definition
 
 ```javascript
