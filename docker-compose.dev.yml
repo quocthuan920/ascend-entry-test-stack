@@ -1,0 +1,36 @@
+networks:
+  ascend-network:
+    external: true
+    name: ascend-stack
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-container
+    networks:
+      - ascend-network
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+  be-service:
+    container_name: be-ascend
+    networks:
+      - ascend-network
+    depends_on:
+      - mongodb
+    build:
+      context: ./ascend-entry-test
+      dockerfile: ./.docker/dev.Dockerfile
+    command: [ "npm", "run", "dev" ]
+    volumes:
+      - ./ascend-entry-test/.env:/www/.env
+      - ./ascend-entry-test/src:/www/src
+    ports:
+      - 8000:3000
+
+volumes:
+  mongodb_data:
+    driver: local
